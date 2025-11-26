@@ -1,4 +1,3 @@
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,19 +6,36 @@ import java.util.Queue;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class Asset {
+public abstract class Asset {
+    private static final int MAX_QUEUE_SIZE = 6;
+    private static final int REQUIRED_QUEUE_SIZE = 5;
+
     private double price;
-    Queue<Double> priceQueue = new LinkedList<>();
+    private String name;
+    private Queue<Double> priceQueue = new LinkedList<>();
     private double sum;
+
+    public Asset(double price, String name) {
+        this.price = price;
+        this.name = name;
+    }
+
+    public final void updatePrice() {
+        double change = calculatePriceChange();
+        this.price = this.price * change;
+        addQueue(this.price);
+    }
+
+    protected abstract double calculatePriceChange();
 
     public void addQueue(double q) {
         priceQueue.add(q);
 
-        if(priceQueue.size() == 6) {
+        if(priceQueue.size() == MAX_QUEUE_SIZE) {
             priceQueue.poll();
         }
     }
+
     public double queueAverage() {
         sum = sum * 0;
         for(var s : priceQueue) {
@@ -29,10 +45,6 @@ public class Asset {
     }
 
     public boolean queueIsReady() {
-        return priceQueue.size() == 5;
-    }
-
-    public Asset(double price) {
-        this.price = price;
+        return priceQueue.size() == REQUIRED_QUEUE_SIZE;
     }
 }
