@@ -16,8 +16,11 @@ public class Player {
         this.balance = balance;
     }
 
-    /** @return true, jei pirkimas ivyko; false, jei nepakanka pinigu */
+    /** @return true, jei pirkimas ivyko; false, jei kiekis neteigiamas arba nepakanka pinigu */
     public boolean buy(Asset asset, int amount) {
+        if(amount <= 0) {
+            return false;
+        }
         double value = tradeValue(asset, amount);
         double totalCost = value + calculateFee(value);
 
@@ -29,8 +32,11 @@ public class Player {
         return false;
     }
 
-    /** @return true, jei pardavimas ivyko; false, jei nepakanka turto */
+    /** @return true, jei pardavimas ivyko; false, jei kiekis neteigiamas arba nepakanka turto */
     public boolean sell(Asset asset, int amount) {
+        if(amount <= 0) {
+            return false;
+        }
         if(getAssetAmount(asset) >= amount) {
             double value = tradeValue(asset, amount);
             updateAssetAmount(asset, -amount);

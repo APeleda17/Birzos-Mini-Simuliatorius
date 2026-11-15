@@ -161,21 +161,36 @@ public class PlayerCharacterizationTest {
         assertEquals(1000.0, player.getBalance(), DELTA);
     }
 
-    /** Test 28: DABARTINE ELGSENA (klaida A1): buy(-5) PADIDINA balansa ir kiekis tampa neigiamas */
+    /** Test 28 (A1 bug fix): buy(-5) atmetamas; anksciau balansas tapdavo 1505, kiekis -5 */
     @Test
-    public void testBuyNegativeAmount_CurrentBuggyBehavior() {
-        player.buy(stock, -5);
+    public void testBuyNegativeAmount_IsRejected() {
+        assertFalse(player.buy(stock, -5));
 
-        assertEquals(1505.0, player.getBalance(), DELTA);
-        assertEquals(-5, player.getAssetAmount(stock));
+        assertEquals(1000.0, player.getBalance(), DELTA);
+        assertEquals(0, player.getAssetAmount(stock));
     }
 
-    /** Test 29: DABARTINE ELGSENA (klaida A1): sell(-5) "nuperka" 5 akcijas uz 505 EUR */
+    /** Test 29 (A1 bug fix): sell(-5) atmetamas; anksciau "nupirkdavo" 5 akcijas uz 505 EUR */
     @Test
-    public void testSellNegativeAmount_CurrentBuggyBehavior() {
-        player.sell(stock, -5);
+    public void testSellNegativeAmount_IsRejected() {
+        assertFalse(player.sell(stock, -5));
 
-        assertEquals(505.0, player.getBalance(), DELTA);
-        assertEquals(5, player.getAssetAmount(stock));
+        assertEquals(1000.0, player.getBalance(), DELTA);
+        assertEquals(0, player.getAssetAmount(stock));
+    }
+
+    /** Test 34 (A1 bug fix): buy(0) atmetamas, niekas nepasikeicia */
+    @Test
+    public void testBuyZero_IsRejected() {
+        assertFalse(player.buy(stock, 0));
+
+        assertEquals(1000.0, player.getBalance(), DELTA);
+        assertEquals(0, player.getAssetAmount(stock));
+    }
+
+    /** Test 35 (A1 bug fix): sell(0) grazina false; Game.gameOver to nenaudoja, todel zaidimo pabaiga veikia */
+    @Test
+    public void testSellZero_ReturnsFalse() {
+        assertFalse(player.sell(stock, 0));
     }
 }
