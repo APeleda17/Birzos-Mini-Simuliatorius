@@ -17,8 +17,8 @@ public class Player {
 
     /** @return true, jei pirkimas ivyko; false, jei nepakanka pinigu */
     public boolean buy(Asset asset, int amount) {
-        double fee = asset.getPrice() * amount * TRANSACTION_FEE_RATE;
-        double totalCost = asset.getPrice() * amount + fee;
+        double value = tradeValue(asset, amount);
+        double totalCost = value + calculateFee(value);
 
         if(balance >= totalCost) {
             balance -= totalCost;
@@ -30,15 +30,21 @@ public class Player {
 
     /** @return true, jei pardavimas ivyko; false, jei nepakanka turto */
     public boolean sell(Asset asset, int amount) {
-        double fee = asset.getPrice() * amount * TRANSACTION_FEE_RATE;
-        int currentAmount = getAssetAmount(asset);
-
-        if(currentAmount >= amount) {
+        if(getAssetAmount(asset) >= amount) {
+            double value = tradeValue(asset, amount);
             updateAssetAmount(asset, -amount);
-            balance += asset.getPrice() * amount - fee;
+            balance += value - calculateFee(value);
             return true;
         }
         return false;
+    }
+
+    private static double tradeValue(Asset asset, int amount) {
+        return asset.getPrice() * amount;
+    }
+
+    private static double calculateFee(double value) {
+        return value * TRANSACTION_FEE_RATE;
     }
 
     private void updateAssetAmount(Asset asset, int amount) {
