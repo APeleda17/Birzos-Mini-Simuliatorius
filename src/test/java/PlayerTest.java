@@ -10,7 +10,7 @@ public class PlayerTest {
 
     @BeforeEach
     public void setUp() {
-        player = new Player(1000.0, 0, 0, 0);
+        player = new Player(1000.0);
         stockAsset = new StockAsset(100.0, "TestStock");
         cryptoAsset = new CryptoAsset(50.0, "TestCrypto");
     }
@@ -64,7 +64,7 @@ public class PlayerTest {
     /** Test 5: Tikrina ar buy nepavyksta kai nepakanka pinigu */
     @Test
     public void testBuyAsset_InsufficientFunds() {
-        Player poorPlayer = new Player(10.0, 0, 0, 0);
+        Player poorPlayer = new Player(10.0);
         double initialBalance = poorPlayer.getBalance();
 
         poorPlayer.buy(stockAsset, 5);

@@ -10,7 +10,7 @@ public class Game {
 
     AssetFactory assetFactory = new AssetFactory();
 
-    Player player = new Player(STARTING_BALANCE, 0, 0, 0);
+    Player player = new Player(STARTING_BALANCE);
     Asset assetStock = assetFactory.createAsset("STOCK", STARTING_ASSET_PRICE, "NVIDIA");
     Asset assetCrypto = assetFactory.createAsset("CRYPTO", STARTING_ASSET_PRICE, "Coinsy");
     Asset assetCommodity = assetFactory.createAsset("COMMODITY", STARTING_ASSET_PRICE, "Gold");

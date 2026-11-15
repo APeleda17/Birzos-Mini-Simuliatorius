@@ -12,11 +12,8 @@ public class Player {
     private int cryptoAmount;
     private int commodityAmount;
 
-    public Player(double balance, int stockAmount, int cryptoAmount, int commodityAmount) {
+    public Player(double balance) {
         this.balance = balance;
-        this.stockAmount = 0;
-        this.cryptoAmount = 0;
-        this.commodityAmount = 0;
     }
 
     public void buy(Asset asset, int amount) {

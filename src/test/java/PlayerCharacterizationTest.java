@@ -16,7 +16,7 @@ public class PlayerCharacterizationTest {
 
     @BeforeEach
     public void setUp() {
-        player = new Player(1000.0, 0, 0, 0);
+        player = new Player(1000.0);
         stock = new StockAsset(100.0, "TestStock");
         crypto = new CryptoAsset(50.0, "TestCrypto");
         commodity = new CommodityAsset(200.0, "TestGold");
@@ -75,7 +75,7 @@ public class PlayerCharacterizationTest {
     /** Test 20: Crypto pirkimas nepavyksta, kai nepakanka pinigu */
     @Test
     public void testBuyCrypto_InsufficientFunds() {
-        Player poorPlayer = new Player(10.0, 0, 0, 0);
+        Player poorPlayer = new Player(10.0);
 
         poorPlayer.buy(crypto, 1);
 
@@ -86,7 +86,7 @@ public class PlayerCharacterizationTest {
     /** Test 21: Commodity pirkimas nepavyksta, kai nepakanka pinigu */
     @Test
     public void testBuyCommodity_InsufficientFunds() {
-        Player poorPlayer = new Player(10.0, 0, 0, 0);
+        Player poorPlayer = new Player(10.0);
 
         poorPlayer.buy(commodity, 1);
 
@@ -118,7 +118,7 @@ public class PlayerCharacterizationTest {
     /** Test 24: Riba: kai balansas lygiai lygus kainai su mokesciu, pirkimas pavyksta (>=) */
     @Test
     public void testBuy_ExactBalanceIsEnough() {
-        Player exactPlayer = new Player(505.0, 0, 0, 0);
+        Player exactPlayer = new Player(505.0);
 
         exactPlayer.buy(stock, 5);
 
