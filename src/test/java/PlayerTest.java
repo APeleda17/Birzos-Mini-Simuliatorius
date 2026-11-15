@@ -101,4 +101,32 @@ public class PlayerTest {
             assertEquals(expectedBalance, player.getBalance(), DELTA);
         }
     }
+
+    /** Test 30 (A3): buy grazina true, kai pirkimas ivyksta */
+    @Test
+    public void testBuy_ReturnsTrueOnSuccess() {
+        assertTrue(player.buy(stockAsset, 1));
+    }
+
+    /** Test 31 (A3): buy grazina false, kai nepakanka pinigu */
+    @Test
+    public void testBuy_ReturnsFalseOnInsufficientFunds() {
+        Player poorPlayer = new Player(10.0);
+
+        assertFalse(poorPlayer.buy(stockAsset, 1));
+    }
+
+    /** Test 32 (A3): sell grazina true, kai pardavimas ivyksta */
+    @Test
+    public void testSell_ReturnsTrueOnSuccess() {
+        player.buy(stockAsset, 1);
+
+        assertTrue(player.sell(stockAsset, 1));
+    }
+
+    /** Test 33 (A3): sell grazina false, kai nepakanka turto */
+    @Test
+    public void testSell_ReturnsFalseOnInsufficientAmount() {
+        assertFalse(player.sell(stockAsset, 1));
+    }
 }

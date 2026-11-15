@@ -5,7 +5,6 @@ import lombok.Setter;
 @Setter
 public class Player {
     private static final double TRANSACTION_FEE_RATE = 0.01;
-    public static final String RED_BOLD = "\033[1;31m";
 
     private double balance;
     private int stockAmount;
@@ -16,27 +15,30 @@ public class Player {
         this.balance = balance;
     }
 
-    public void buy(Asset asset, int amount) {
+    /** @return true, jei pirkimas ivyko; false, jei nepakanka pinigu */
+    public boolean buy(Asset asset, int amount) {
         double fee = asset.getPrice() * amount * TRANSACTION_FEE_RATE;
         double totalCost = asset.getPrice() * amount + fee;
 
         if(balance >= totalCost) {
             balance -= totalCost;
             updateAssetAmount(asset, amount);
-        } else {
-            System.out.println(RED_BOLD + "Neturi tiek pinigų");
+            return true;
         }
+        return false;
     }
-    public void sell(Asset asset, int amount) {
+
+    /** @return true, jei pardavimas ivyko; false, jei nepakanka turto */
+    public boolean sell(Asset asset, int amount) {
         double fee = asset.getPrice() * amount * TRANSACTION_FEE_RATE;
         int currentAmount = getAssetAmount(asset);
 
         if(currentAmount >= amount) {
             updateAssetAmount(asset, -amount);
             balance += asset.getPrice() * amount - fee;
-        } else {
-            System.out.println(RED_BOLD + "Neturi tiek coins");
+            return true;
         }
+        return false;
     }
 
     private void updateAssetAmount(Asset asset, int amount) {

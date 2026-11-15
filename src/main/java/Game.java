@@ -88,8 +88,8 @@ public class Game {
         scanner.nextLine();
 
         Asset selectedAsset = getAssetByChoice(assetChoice);
-        if(selectedAsset != null) {
-            player.buy(selectedAsset, amount);
+        if(selectedAsset != null && !player.buy(selectedAsset, amount)) {
+            System.out.println(RED_BOLD + "Neturi tiek pinigų");
         }
         updateAllMarkets();
     }
@@ -102,8 +102,8 @@ public class Game {
         scanner.nextLine();
 
         Asset selectedAsset = getAssetByChoice(assetChoice);
-        if(selectedAsset != null) {
-            player.sell(selectedAsset, amount);
+        if(selectedAsset != null && !player.sell(selectedAsset, amount)) {
+            System.out.println(RED_BOLD + "Neturi tiek coins");
         }
         updateAllMarkets();
     }
