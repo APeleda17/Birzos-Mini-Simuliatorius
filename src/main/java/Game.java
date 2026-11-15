@@ -50,9 +50,9 @@ public class Game {
         System.out.println(BLACK + CYAN_BACKGROUND + "Asset: " + BLACK_BOLD + assetCrypto.getName() + " vertė yra " + BLACK_BOLD + String.format("%.1f", assetCrypto.getPrice()) + "€ " + RESET);
         System.out.println(BLACK + CYAN_BACKGROUND + "Asset: " + BLACK_BOLD + assetCommodity.getName() + " vertė yra " + BLACK_BOLD + String.format("%.1f", assetCommodity.getPrice()) + "€ " + RESET);
         System.out.println(BLACK + WHITE_BACKGROUND +"Jūsų balansas " + BLACK_BOLD + String.format("%.1f",player.getBalance()) + "€ " + RESET);
-        System.out.println(BLACK + WHITE_BACKGROUND +"Jūsų NVIDIA kiekis " + BLACK_BOLD + player.getStockAmount() + " " + RESET);
-        System.out.println(BLACK + WHITE_BACKGROUND +"Jūsų Coinsy kiekis " + BLACK_BOLD + player.getCryptoAmount() + " " + RESET);
-        System.out.println(BLACK + WHITE_BACKGROUND +"Jūsų Gold kiekis " + BLACK_BOLD + player.getCommodityAmount() + " " + RESET);
+        System.out.println(BLACK + WHITE_BACKGROUND +"Jūsų NVIDIA kiekis " + BLACK_BOLD + player.getAssetAmount(assetStock) + " " + RESET);
+        System.out.println(BLACK + WHITE_BACKGROUND +"Jūsų Coinsy kiekis " + BLACK_BOLD + player.getAssetAmount(assetCrypto) + " " + RESET);
+        System.out.println(BLACK + WHITE_BACKGROUND +"Jūsų Gold kiekis " + BLACK_BOLD + player.getAssetAmount(assetCommodity) + " " + RESET);
     }
 
     private void displaySMAIndicator() {
@@ -120,9 +120,9 @@ public class Game {
     }
 
     public void gameOver() {
-        player.sell(assetStock, player.getStockAmount());
-        player.sell(assetCrypto, player.getCryptoAmount());
-        player.sell(assetCommodity, player.getCommodityAmount());
+        player.sell(assetStock, player.getAssetAmount(assetStock));
+        player.sell(assetCrypto, player.getAssetAmount(assetCrypto));
+        player.sell(assetCommodity, player.getAssetAmount(assetCommodity));
 
         System.out.println("Laikas baigėsi!");
 

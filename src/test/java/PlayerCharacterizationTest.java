@@ -28,7 +28,7 @@ public class PlayerCharacterizationTest {
         player.buy(crypto, 4);
 
         assertEquals(1000.0 - 202.0, player.getBalance(), DELTA);
-        assertEquals(4, player.getCryptoAmount());
+        assertEquals(4, player.getAssetAmount(crypto));
     }
 
     /** Test 16: Commodity pirkimas: balansas = 1000 - (2 * 200 + 1 % mokestis) */
@@ -37,7 +37,7 @@ public class PlayerCharacterizationTest {
         player.buy(commodity, 2);
 
         assertEquals(1000.0 - 404.0, player.getBalance(), DELTA);
-        assertEquals(2, player.getCommodityAmount());
+        assertEquals(2, player.getAssetAmount(commodity));
     }
 
     /** Test 17: Crypto pardavimas: gaunama 4 * 50 - 1 % mokestis */
@@ -47,7 +47,7 @@ public class PlayerCharacterizationTest {
         player.sell(crypto, 4);
 
         assertEquals(798.0 + 198.0, player.getBalance(), DELTA);
-        assertEquals(0, player.getCryptoAmount());
+        assertEquals(0, player.getAssetAmount(crypto));
     }
 
     /** Test 18: Commodity pardavimas: gaunama 1 * 200 - 1 % mokestis */
@@ -57,7 +57,7 @@ public class PlayerCharacterizationTest {
         player.sell(commodity, 1);
 
         assertEquals(596.0 + 198.0, player.getBalance(), DELTA);
-        assertEquals(1, player.getCommodityAmount());
+        assertEquals(1, player.getAssetAmount(commodity));
     }
 
     /** Test 19: Pardavimo mokestis: nupirkus ir pardavus 5 akcijas prarandama 2 * 5 EUR mokesciu */
@@ -69,7 +69,7 @@ public class PlayerCharacterizationTest {
         player.sell(stock, 5);
 
         assertEquals(990.0, player.getBalance(), DELTA);
-        assertEquals(0, player.getStockAmount());
+        assertEquals(0, player.getAssetAmount(stock));
     }
 
     /** Test 20: Crypto pirkimas nepavyksta, kai nepakanka pinigu */
@@ -80,7 +80,7 @@ public class PlayerCharacterizationTest {
         poorPlayer.buy(crypto, 1);
 
         assertEquals(10.0, poorPlayer.getBalance(), DELTA);
-        assertEquals(0, poorPlayer.getCryptoAmount());
+        assertEquals(0, poorPlayer.getAssetAmount(crypto));
     }
 
     /** Test 21: Commodity pirkimas nepavyksta, kai nepakanka pinigu */
@@ -91,7 +91,7 @@ public class PlayerCharacterizationTest {
         poorPlayer.buy(commodity, 1);
 
         assertEquals(10.0, poorPlayer.getBalance(), DELTA);
-        assertEquals(0, poorPlayer.getCommodityAmount());
+        assertEquals(0, poorPlayer.getAssetAmount(commodity));
     }
 
     /** Test 22: Crypto pardavimas nepavyksta, kai nepakanka kiekio */
@@ -103,7 +103,7 @@ public class PlayerCharacterizationTest {
         player.sell(crypto, 2);
 
         assertEquals(balanceAfterBuy, player.getBalance(), DELTA);
-        assertEquals(1, player.getCryptoAmount());
+        assertEquals(1, player.getAssetAmount(crypto));
     }
 
     /** Test 23: Commodity pardavimas nepavyksta, kai nepakanka kiekio */
@@ -112,7 +112,7 @@ public class PlayerCharacterizationTest {
         player.sell(commodity, 1);
 
         assertEquals(1000.0, player.getBalance(), DELTA);
-        assertEquals(0, player.getCommodityAmount());
+        assertEquals(0, player.getAssetAmount(commodity));
     }
 
     /** Test 24: Riba: kai balansas lygiai lygus kainai su mokesciu, pirkimas pavyksta (>=) */
@@ -123,7 +123,7 @@ public class PlayerCharacterizationTest {
         exactPlayer.buy(stock, 5);
 
         assertEquals(0.0, exactPlayer.getBalance(), DELTA);
-        assertEquals(5, exactPlayer.getStockAmount());
+        assertEquals(5, exactPlayer.getAssetAmount(stock));
     }
 
     /** Test 25: Skirtingu tipu kiekiai nesimaiso */
@@ -132,9 +132,9 @@ public class PlayerCharacterizationTest {
         player.buy(stock, 3);
         player.buy(crypto, 2);
 
-        assertEquals(3, player.getStockAmount());
-        assertEquals(2, player.getCryptoAmount());
-        assertEquals(0, player.getCommodityAmount());
+        assertEquals(3, player.getAssetAmount(stock));
+        assertEquals(2, player.getAssetAmount(crypto));
+        assertEquals(0, player.getAssetAmount(commodity));
     }
 
     /** Test 26: Pardavus 0 vienetu (taip daro Game.gameOver), niekas nepasikeicia */
@@ -143,7 +143,7 @@ public class PlayerCharacterizationTest {
         player.sell(stock, 0);
 
         assertEquals(1000.0, player.getBalance(), DELTA);
-        assertEquals(0, player.getStockAmount());
+        assertEquals(0, player.getAssetAmount(stock));
     }
 
     /** Test 27: Nezinomo tipo turto Player neturi, todel pardavimas nepavyksta */
@@ -167,7 +167,7 @@ public class PlayerCharacterizationTest {
         player.buy(stock, -5);
 
         assertEquals(1505.0, player.getBalance(), DELTA);
-        assertEquals(-5, player.getStockAmount());
+        assertEquals(-5, player.getAssetAmount(stock));
     }
 
     /** Test 29: DABARTINE ELGSENA (klaida A1): sell(-5) "nuperka" 5 akcijas uz 505 EUR */
@@ -176,6 +176,6 @@ public class PlayerCharacterizationTest {
         player.sell(stock, -5);
 
         assertEquals(505.0, player.getBalance(), DELTA);
-        assertEquals(5, player.getStockAmount());
+        assertEquals(5, player.getAssetAmount(stock));
     }
 }

@@ -1,15 +1,16 @@
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+import java.util.HashMap;
+import java.util.Map;
+
 public class Player {
     private static final double TRANSACTION_FEE_RATE = 0.01;
 
+    @Getter
+    @Setter
     private double balance;
-    private int stockAmount;
-    private int cryptoAmount;
-    private int commodityAmount;
+    private final Map<Asset, Integer> holdings = new HashMap<>();
 
     public Player(double balance) {
         this.balance = balance;
@@ -48,24 +49,11 @@ public class Player {
     }
 
     private void updateAssetAmount(Asset asset, int amount) {
-        if(asset instanceof StockAsset) {
-            stockAmount += amount;
-        } else if(asset instanceof CryptoAsset) {
-            cryptoAmount += amount;
-        } else if(asset instanceof CommodityAsset) {
-            commodityAmount += amount;
-        }
+        holdings.merge(asset, amount, Integer::sum);
     }
 
-    private int getAssetAmount(Asset asset) {
-        if(asset instanceof StockAsset) {
-            return stockAmount;
-        } else if(asset instanceof CryptoAsset) {
-            return cryptoAmount;
-        } else if(asset instanceof CommodityAsset) {
-            return commodityAmount;
-        }
-        return 0;
+    public int getAssetAmount(Asset asset) {
+        return holdings.getOrDefault(asset, 0);
     }
 }
 

@@ -31,10 +31,10 @@ public class PlayerTest {
     @Test
     public void testBuyAsset_AssetAmountIncreases() {
         player.buy(stockAsset, 5);
-        assertEquals(5, player.getStockAmount());
+        assertEquals(5, player.getAssetAmount(stockAsset));
 
         player.buy(cryptoAsset, 3);
-        assertEquals(3, player.getCryptoAmount());
+        assertEquals(3, player.getAssetAmount(cryptoAsset));
     }
 
     /** Test 3: Tikrina ar sell operacija teisingai padidina balansa su fee */
@@ -55,10 +55,10 @@ public class PlayerTest {
     @Test
     public void testSellAsset_AssetAmountDecreases() {
         player.buy(stockAsset, 5);
-        assertEquals(5, player.getStockAmount());
+        assertEquals(5, player.getAssetAmount(stockAsset));
 
         player.sell(stockAsset, 3);
-        assertEquals(2, player.getStockAmount());
+        assertEquals(2, player.getAssetAmount(stockAsset));
     }
 
     /** Test 5: Tikrina ar buy nepavyksta kai nepakanka pinigu */
@@ -70,7 +70,7 @@ public class PlayerTest {
         poorPlayer.buy(stockAsset, 5);
 
         assertEquals(initialBalance, poorPlayer.getBalance(), DELTA);
-        assertEquals(0, poorPlayer.getStockAmount());
+        assertEquals(0, poorPlayer.getAssetAmount(stockAsset));
     }
 
     /** Test 6: Tikrina ar sell nepavyksta kai nepakanka assets */
@@ -82,7 +82,7 @@ public class PlayerTest {
         player.sell(stockAsset, 5);
 
         assertEquals(balanceAfterBuy, player.getBalance(), DELTA);
-        assertEquals(2, player.getStockAmount());
+        assertEquals(2, player.getAssetAmount(stockAsset));
     }
 
     /** Test 7: Tikrina transaction fee skaiciavima perkant */
